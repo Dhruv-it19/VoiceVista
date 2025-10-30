@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Complete</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .text-container {
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .text-box {
+            margin-bottom: 20px;
+        }
+        
+        .text-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .text-content {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        
+        .summary-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .summary-box {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tab-container {
+            margin-bottom: 15px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .tab-button {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .tab-button.active {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1 class="success-animation">Translation Complete! <i class="fas fa-check-circle"></i></h1>
+
+        <div class="video-container">
+            <div class="video-box original">
+                <h3><i class="fas fa-film"></i> Original Video</h3>
+                <video controls>
+                    <source src="{{ original_video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="video-box translated">
+                <h3><i class="fas fa-language"></i> Translated Video</h3>
+                <div id="translated-videos">
+                    <video controls>
+                        <source src="{{ translated_video_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        {% if summary %}
+        <div class="text-container">
+            <h2><i class="fas fa-chart-pie"></i> AI Generated Summary</h2>
+            <div class="summary-container">
+                <div class="summary-box">
+                    <h3><i class="fas fa-file-alt"></i> Original Summary</h3>
+                    <div class="text-content">{{ summary }}</div>
+                </div>
+                {% if translated_summary %}
+                <div class="summary-box">
+                    <h3><i class="fas fa-language"></i> Translated Summary</h3>
+                    <div class="text-content">{{ translated_summary }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if original_text %}
+        <div class="text-container">
+            <h2><i class="fas fa-file-alt"></i> Full Transcription</h2>
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="openTab(event, 'original-text')">Original</button>
+                    <button class="tab-button" onclick="openTab(event, 'translated-text')">Translated</button>
+                </div>
+                <div id="original-text" class="tab-content active">
+                    <div class="text-content">{{ original_text }}</div>
+                </div>
+                <div id="translated-text" class="tab-content">
+                    <div class="text-content">{{ translated_text }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="action-buttons">
+            <a href="{{ translated_video_url }}" download class="action-button download">
+                <i class="fas fa-download"></i> Download Translated Video
+            </a>
+            <button onclick="window.location.href='/'" class="action-button new-translation">
+                <i class="fas fa-sync"></i> Translate Another Video
+            </button>
+        </div>
+
+        <div class="share-container">
+            <h3><i class="fas fa-share-alt"></i> Share Video</h3>
+            <div class="share-buttons">
+                <button onclick="share('facebook')" class="share-button facebook">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+                <button onclick="share('twitter')" class="share-button twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </button>
+                <button onclick="share('linkedin')" class="share-button linkedin">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </button>
+                <button onclick="copyLink()" class="share-button copy">
+                    <i class="fas fa-copy"></i> Copy Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function share(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('Check out this translated video!');
+            
+            const shareUrls = {
+                facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+                twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+                linkedin: `https://www.linkedin.com/shareArticle?url=${url}&title=${text}`
+            };
+            
+            window.open(shareUrls[platform], '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    const copyButton = document.querySelector('.share-button.copy');
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                    }, 2000);
+                })
+                .catch(err => console.error('Failed to copy link:', err));
+        }
+        
+        function openTab(evt, tabId) {
+            // Hide all tab content
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove "active" class from all tab buttons
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the selected tab content and add "active" class to the button
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Add success animation to the container
+        document.querySelector('.result-container').classList.add('success-animation');
+    </script>
+</body>
+</html>

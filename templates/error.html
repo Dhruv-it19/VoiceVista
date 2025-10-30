@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Voice Vista</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .error-container {
+            max-width: 700px;
+            padding: 30px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .error-icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .error-heading {
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .lead {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #555;
+        }
+        
+        .error-details {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8d7da;
+            border-radius: 8px;
+            color: #721c24;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-home:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .solutions-container {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .solutions-container h3 {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .solutions-container ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        
+        .solutions-container li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .solutions-container li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .solutions-container li strong {
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .sub-list {
+            margin-top: 8px;
+            margin-left: 15px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 2px solid #e9ecef;
+        }
+        
+        .sub-list li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .sub-list li:before {
+            content: "→";
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .error-container {
+                margin: 0 15px;
+                padding: 20px;
+            }
+            
+            .error-heading {
+                font-size: 1.8rem;
+            }
+            
+            .lead {
+                font-size: 1.1rem;
+            }
+            
+            .error-details {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .solutions-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <div class="nav-links">
+                <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="/documents" class="nav-link"><i class="fas fa-file-alt"></i> Document Processing</a>
+                <a href="/main" class="nav-link"><i class="fas fa-video"></i> Video Translation</a>
+            </div>
+            
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h2 class="error-heading">Error Occurred</h2>
+            <p class="lead">We encountered a problem while processing your request.</p>
+            
+            <div class="error-details">
+                {{ error }}
+            </div>
+            
+            <div class="btn-container">
+                <a href="javascript:history.back()" class="btn-home">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </a>
+            </div>
+            
+            <div class="solutions-container">
+                <h3><i class="fas fa-tools"></i> Common Solutions</h3>
+                <ul>
+                    <li>Check that all dependencies are correctly installed</li>
+                    <li>Make sure FFmpeg is installed and accessible</li>
+                    <li>Try with a shorter or clearer audio file</li>
+                    <li>Make sure the video file is not corrupted</li>
+                    {% if "Tesseract OCR is not installed" in error %}
+                    <li><strong>Tesseract OCR Installation:</strong>
+                        <ul class="sub-list">
+                            <li>Download Tesseract OCR from <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank">UB Mannheim</a></li>
+                            <li>Add the Tesseract installation directory to your system PATH:
+                                <ul class="sub-list">
+                                    <li>Right-click on "This PC" or "My Computer" → Properties</li>
+                                    <li>Click on "Advanced system settings"</li>
+                                    <li>Click on "Environment Variables"</li>
+                                    <li>Under "System variables", find and select "Path", then click "Edit"</li>
+                                    <li>Click "New" and add the Tesseract installation directory (e.g., C:\Program Files\Tesseract-OCR)</li>
+                                    <li>Click "OK" on all dialogs to save</li>
+                                </ul>
+                            </li>
+                            <li>Restart your computer after installation to ensure PATH changes take effect</li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if "PDF" in error %}
+                    <li><strong>PDF Issues:</strong>
+                        <ul class="sub-list">
+                            <li>Make sure the PDF contains actual text, not just scanned images</li>
+                            <li>Try converting the PDF to text using an online converter first</li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if "Word document" in error %}
+                    <li><strong>Word Document Issues:</strong>
+                        <ul class="sub-list">
+                            <li>Make sure the document contains actual text content</li>
+                            <li>Try saving the document in a different format (e.g., .docx instead of .doc)</li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Processing Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 10px;
+        }
+        
+        .result-section {
+            background-color: var(--light-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .result-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-info {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .file-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .file-meta {
+            flex: 1;
+        }
+        
+        .file-meta p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-meta i {
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .result-header h2 {
+            margin: 0;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .download-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .download-btn i {
+            font-size: 1.1rem;
+        }
+        
+        .text-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .text-column h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .text-column h3 i {
+            color: var(--primary-color);
+        }
+        
+        .text-container {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .text-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .text-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .text-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .text-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            color: var(--secondary-color);
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .copy-btn:hover {
+            opacity: 1;
+            background-color: var(--light-bg);
+        }
+        
+        .text-wrapper {
+            position: relative;
+        }
+        
+        .copy-notification {
+            position: absolute;
+            right: 45px;
+            top: 8px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .show-notification {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+            
+            .result-section {
+                padding: 20px;
+            }
+            
+            .text-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+            }
+            
+            .file-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/documents" class="nav-link"><i class="fas fa-file-alt"></i> Document Processing</a>
+            <a href="/main" class="nav-link"><i class="fas fa-video"></i> Video Translation</a>
+        </div>
+        
+        <h1>Document Processing Results</h1>
+        
+        <div class="result-section">
+            <div class="file-info">
+                <div class="file-icon">
+                    {% if result.file_type == 'PDF' %}
+                        <i class="fas fa-file-pdf"></i>
+                    {% elif result.file_type in ['DOCX', 'DOC'] %}
+                        <i class="fas fa-file-word"></i>
+                    {% elif result.file_type in ['JPG', 'JPEG', 'PNG', 'BMP', 'TIFF', 'TIF'] %}
+                        <i class="fas fa-file-image"></i>
+                    {% else %}
+                        <i class="fas fa-file"></i>
+                    {% endif %}
+                </div>
+                <div class="file-meta">
+                    <p><i class="fas fa-file"></i> <strong>File:</strong> {{ result.original_filename }}</p>
+                    <p><i class="fas fa-file-code"></i> <strong>Type:</strong> {{ result.file_type }}</p>
+                    <p><i class="fas fa-language"></i> <strong>Translated to:</strong> {{ result.target_language }}</p>
+                </div>
+            </div>
+            
+            <div class="result-header">
+                <h2>Extracted and Translated Text</h2>
+                <div class="download-buttons">
+                    <a href="{{ url_for('download_file', filename=result.original_text_filename) }}" class="download-btn">
+                        <i class="fas fa-download"></i> Original Text
+                    </a>
+                    <a href="{{ url_for('download_file', filename=result.translated_text_filename) }}" class="download-btn">
+                        <i class="fas fa-download"></i> Translated Text
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-grid">
+                <div class="text-column">
+                    <h3><i class="fas fa-file-alt"></i> Original Text</h3>
+                    <div class="text-wrapper">
+                        <div class="text-container" id="originalText">{{ result.original_text }}</div>
+                        <button class="copy-btn" id="copyOriginal" title="Copy to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <span class="copy-notification" id="originalNotification">Copied!</span>
+                    </div>
+                </div>
+                <div class="text-column">
+                    <h3><i class="fas fa-language"></i> Translated Text</h3>
+                    <div class="text-wrapper">
+                        <div class="text-container" id="translatedText">{{ result.translated_text }}</div>
+                        <button class="copy-btn" id="copyTranslated" title="Copy to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <span class="copy-notification" id="translatedNotification">Copied!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Copy to clipboard functionality
+        document.getElementById('copyOriginal').addEventListener('click', function() {
+            copyToClipboard('originalText', 'originalNotification');
+        });
+        
+        document.getElementById('copyTranslated').addEventListener('click', function() {
+            copyToClipboard('translatedText', 'translatedNotification');
+        });
+        
+        function copyToClipboard(textId, notificationId) {
+            const text = document.getElementById(textId).innerText;
+            const notification = document.getElementById(notificationId);
+            
+            // Create temporary element
+            const tempElement = document.createElement('textarea');
+            tempElement.value = text;
+            document.body.appendChild(tempElement);
+            
+            // Select and copy the text
+            tempElement.select();
+            document.execCommand('copy');
+            
+            // Remove the temporary element
+            document.body.removeChild(tempElement);
+            
+            // Show notification
+            notification.classList.add('show-notification');
+            
+            // Hide notification after 2 seconds
+            setTimeout(function() {
+                notification.classList.remove('show-notification');
+            }, 2000);
+        }
+    </script>
+</body>
+</html> 

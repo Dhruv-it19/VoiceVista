@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Vista - Smart Education Translation System</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../static/img/voice vista.png" alt="Voice Vista Logo" class="logo-img">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main') }}" class="cta-button">Video Translation</a>
+                <a href="{{ url_for('documents') }}" class="cta-button">Document Processing</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content" data-aos="fade-up">
+                <h1>Transform Education with Smart Translation</h1>
+                <p>Break language barriers and make educational content accessible globally with our AI-powered translation system.</p>
+                <div class="hero-buttons">
+                    <button class="primary-button">Start Free Trial</button>
+                    <button class="secondary-button">Watch Demo</button>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left">
+                <div class="animation-container">
+                    <!-- Animation will be added via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2 data-aos="fade-up">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-language"></i>
+                    <h3>Multi-language Support</h3>
+                    <p>Translate content into multiple languages with high accuracy and context preservation.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI-Powered</h3>
+                    <p>Advanced AI algorithms ensure natural translations and maintain educational context.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-clock"></i>
+                    <h3>Real-time Processing</h3>
+                    <p>Quick translation processing with minimal human intervention required.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Track usage, performance, and engagement metrics in real-time.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="how-it-works">
+            <h2 data-aos="fade-up">How It Works</h2>
+            <div class="steps">
+                <div class="step" data-aos="fade-right">
+                    <div class="step-number">1</div>
+                    <h3>Upload Content</h3>
+                    <p>Upload your audio or video educational content to our secure platform.</p>
+                </div>
+                <div class="step" data-aos="fade-right" data-aos-delay="100">
+                    <div class="step-number">2</div>
+                    <h3>Select Languages</h3>
+                    <p>Choose the target languages for translation.</p>
+                </div>
+                <div class="step" data-aos="fade-right" data-aos-delay="200">
+                    <div class="step-number">3</div>
+                    <h3>AI Processing</h3>
+                    <p>Our AI system processes and translates the content while preserving context.</p>
+                </div>
+                <div class="step" data-aos="fade-right" data-aos-delay="300">
+                    <div class="step-number">4</div>
+                    <h3>Review & Publish</h3>
+                    <p>Review the translations and publish your content globally.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="pricing">
+            <h2 data-aos="fade-up">Choose Your Plan</h2>
+            <p class="pricing-subtitle" data-aos="fade-up">Flexible pricing plans to suit your needs</p>
+            <div class="pricing-toggle" data-aos="fade-up">
+                <span>Monthly</span>
+                <label class="switch">
+                    <input type="checkbox" id="pricing-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Yearly <span class="discount-badge">Save 20%</span></span>
+            </div>
+            <div class="pricing-cards">
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <p>Perfect for small educational institutions</p>
+                    </div>
+                    <div class="price-container">
+                        <div class="price monthly">₹2,499<span>/month</span></div>
+                        <div class="price yearly">₹23,990<span>/year</span></div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Up to 5 hours of content</li>
+                        <li><i class="fas fa-check"></i> 3 languages</li>
+                        <li><i class="fas fa-check"></i> Basic analytics</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                        <li><i class="fas fa-check"></i> 1 user account</li>
+                    </ul>
+                    <button class="primary-button">Get Started</button>
+                </div>
+                <div class="pricing-card featured" data-aos="fade-up" data-aos-delay="200">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Pro</h3>
+                        <p>Ideal for growing educational platforms</p>
+                    </div>
+                    <div class="price-container">
+                        <div class="price monthly">₹6,999<span>/month</span></div>
+                        <div class="price yearly">₹67,190<span>/year</span></div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Up to 20 hours of content</li>
+                        <li><i class="fas fa-check"></i> 10 languages</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> 5 user accounts</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                    </ul>
+                    <button class="primary-button">Get Started</button>
+                </div>
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <p>Custom solutions for large organizations</p>
+                    </div>
+                    <div class="price-container">
+                        <div class="price">Custom</div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Unlimited content</li>
+                        <li><i class="fas fa-check"></i> All languages</li>
+                        <li><i class="fas fa-check"></i> Custom analytics</li>
+                        <li><i class="fas fa-check"></i> 24/7 support</li>
+                        <li><i class="fas fa-check"></i> Unlimited users</li>
+                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
+                    </ul>
+                    <button class="primary-button">Contact Sales</button>
+                </div>
+            </div>
+            <div class="pricing-footer" data-aos="fade-up">
+                <p>All plans include a 14-day free trial. No credit card required.</p>
+                <p>Need help choosing? <a href="#contact">Contact our sales team</a></p>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2 data-aos="fade-up">Get in Touch</h2>
+            <div class="contact-container">
+                <form data-aos="fade-right">
+                    <input type="text" placeholder="Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <textarea placeholder="Message" required></textarea>
+                    <button type="submit" class="primary-button">Send Message</button>
+                </form>
+                <div class="contact-info" data-aos="fade-left">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>contact@voicevista.com</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 98765 43210</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>123 Tech Park, Bangalore, India</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="img/Voice vista.png" alt="Voice Vista Logo" class="footer-logo">
+                <p>Making education accessible to everyone, everywhere.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Voice Vista. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>// Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Create floating animation for hero section
+        const createFloatingAnimation = () => {
+            const container = document.querySelector('.animation-container');
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", "500");
+            svg.setAttribute("height", "400");
+            svg.setAttribute("viewBox", "0 0 500 400");
+        
+            // Create gradient
+            const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            const gradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+            gradient.setAttribute("id", "gradient");
+            gradient.setAttribute("x1", "0%");
+            gradient.setAttribute("y1", "0%");
+            gradient.setAttribute("x2", "100%");
+            gradient.setAttribute("y2", "100%");
+        
+            const stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop1.setAttribute("offset", "0%");
+            stop1.setAttribute("style", "stop-color:#4F46E5");
+            const stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop2.setAttribute("offset", "100%");
+            stop2.setAttribute("style", "stop-color:#10B981");
+        
+            gradient.appendChild(stop1);
+            gradient.appendChild(stop2);
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+        
+            // Create animated circles
+            for (let i = 0; i < 5; i++) {
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                const size = 20 + Math.random() * 30;
+                const x = Math.random() * 400 + 50;
+                const y = Math.random() * 300 + 50;
+                
+                circle.setAttribute("cx", x);
+                circle.setAttribute("cy", y);
+                circle.setAttribute("r", size);
+                circle.setAttribute("fill", "url(#gradient)");
+                circle.setAttribute("opacity", "0.6");
+                
+                // Add animation
+                const animate = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+                animate.setAttribute("attributeName", "cy");
+                animate.setAttribute("values", `${y};${y-20};${y}`);
+                animate.setAttribute("dur", `${3 + Math.random() * 2}s`);
+                animate.setAttribute("repeatCount", "indefinite");
+                
+                circle.appendChild(animate);
+                svg.appendChild(circle);
+            }
+        
+            container.appendChild(svg);
+        };
+        
+        // Initialize floating animation
+        createFloatingAnimation();
+        
+        // Add hover effect to feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    y: -10,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Add scroll reveal animation for sections
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(section);
+        });
+        
+        // Form submission handling
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(contactForm);
+                const data = Object.fromEntries(formData);
+                
+                // Show success message
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    submitButton.textContent = 'Message Sent!';
+                    submitButton.style.backgroundColor = '#10B981';
+                    
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                        submitButton.style.backgroundColor = '';
+                        contactForm.reset();
+                    }, 2000);
+                }, 1500);
+            });
+        }
+        
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.pageYOffset;
+            hero.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+        });
+        
+        // Pricing Toggle Functionality
+        const pricingToggle = document.getElementById('pricing-toggle');
+        if (pricingToggle) {
+            pricingToggle.addEventListener('change', function() {
+                const monthlyPrices = document.querySelectorAll('.price.monthly');
+                const yearlyPrices = document.querySelectorAll('.price.yearly');
+                
+                if (this.checked) {
+                    monthlyPrices.forEach(price => price.style.display = 'none');
+                    yearlyPrices.forEach(price => price.style.display = 'block');
+                } else {
+                    monthlyPrices.forEach(price => price.style.display = 'block');
+                    yearlyPrices.forEach(price => price.style.display = 'none');
+                }
+            });
+        }
+        
+        // Add hover effect to pricing cards
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    y: -10,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.1)"
+                });
+            });
+        
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+                });
+            });
+        }); </script>
+</body>
+</html> 

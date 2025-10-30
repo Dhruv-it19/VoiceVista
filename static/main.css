@@ -1,0 +1,365 @@
+/* Main Page Styles */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --background-color: #f5f6fa;
+    --text-color: #2c3e50;
+    --border-color: #dcdde1;
+    --success-color: #2ecc71;
+    --warning-color: #f1c40f;
+    --error-color: #e74c3c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 850px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    text-align: center;
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+/* Feature Links Styles */
+.feature-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.feature-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.feature-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Upload Selector Styles */
+.upload-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    gap: 1rem;
+}
+
+.selector-btn {
+    padding: 0.9rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selector-btn i {
+    font-size: 1.1rem;
+}
+
+.selector-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 3px 10px rgba(52, 152, 219, 0.2);
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+label {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+select, input[type="url"], input[type="file"] {
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+}
+
+select:focus, 
+input[type="url"]:focus, 
+input[type="file"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Drop Zone Styles */
+.drop-zone, .document-drop-zone {
+    border: 2px dashed var(--border-color);
+    padding: 3rem 2rem;
+    text-align: center;
+    margin: 1.5rem 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop-zone:hover, .document-drop-zone:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.drop-zone.dragover, .document-drop-zone.dragover {
+    border-color: var(--primary-color);
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.drop-zone i, .document-drop-zone i {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.drop-zone:hover i, .document-drop-zone:hover i {
+    color: var(--primary-color);
+}
+
+.drop-zone strong, .document-drop-zone strong {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.drop-zone p, .document-drop-zone p {
+    color: var(--light-text);
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+/* Button Styles */
+.action-button {
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.action-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-button i {
+    font-size: 1.1em;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Spinner Animation */
+.spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* YouTube Tips Styles */
+.youtube-tips {
+    background-color: #fff8e6;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--warning-color);
+}
+
+.youtube-tips p strong {
+    color: var(--secondary-color);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+.youtube-tips ul {
+    list-style-type: none;
+    margin-top: 0.8rem;
+    padding-left: 0.3rem;
+}
+
+.youtube-tips li {
+    margin: 0.7rem 0;
+    display: flex;
+    align-items: flex-start;
+    color: #555;
+}
+
+.youtube-tips li:before {
+    content: '•';
+    color: var(--warning-color);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Language Select Styles */
+.language-select-container {
+    margin: 2rem 0;
+}
+
+.language-select-container label {
+    display: block;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.8rem;
+    font-size: 1.05rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .upload-selector {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .selector-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .drop-zone, .document-drop-zone {
+        padding: 2rem 1rem;
+    }
+    
+    .drop-zone i, .document-drop-zone i {
+        font-size: 2.5rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .drop-zone strong, .document-drop-zone strong {
+        font-size: 1.1rem;
+    }
+    
+    .drop-zone p, .document-drop-zone p {
+        max-width: 100%;
+        font-size: 0.9rem;
+    }
+    
+    .action-button {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    select, input[type="url"], input[type="file"] {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.95rem;
+    }
+    
+    .youtube-tips {
+        padding: 1rem;
+    }
+    
+    .youtube-tips li {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 1rem;
+        padding: 1.2rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+} 
