@@ -11,6 +11,6 @@ pytesseract==0.3.10
 pillow==9.5.0
 # This is the correct package for Word doc processing
 python-docx==0.8.11
-torch==2.0.0
+torch==2.5.1
 transformers==4.27.4
 sniffio==1.2.0
