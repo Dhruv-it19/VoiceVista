@@ -10,6 +10,6 @@ PyPDF2
 pytesseract
 pillow
 python-docx
-torch==2.2.0+cpu
+torch
 transformers
 sniffio
