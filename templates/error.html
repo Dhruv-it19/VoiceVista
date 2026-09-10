@@ -220,7 +220,6 @@
         <div class="error-container">
             <div class="nav-links">
                 <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
-                <a href="/documents" class="nav-link"><i class="fas fa-file-alt"></i> Document Processing</a>
                 <a href="/main" class="nav-link"><i class="fas fa-video"></i> Video Translation</a>
             </div>
             
@@ -248,40 +247,7 @@
                     <li>Make sure FFmpeg is installed and accessible</li>
                     <li>Try with a shorter or clearer audio file</li>
                     <li>Make sure the video file is not corrupted</li>
-                    {% if "Tesseract OCR is not installed" in error %}
-                    <li><strong>Tesseract OCR Installation:</strong>
-                        <ul class="sub-list">
-                            <li>Download Tesseract OCR from <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank">UB Mannheim</a></li>
-                            <li>Add the Tesseract installation directory to your system PATH:
-                                <ul class="sub-list">
-                                    <li>Right-click on "This PC" or "My Computer" → Properties</li>
-                                    <li>Click on "Advanced system settings"</li>
-                                    <li>Click on "Environment Variables"</li>
-                                    <li>Under "System variables", find and select "Path", then click "Edit"</li>
-                                    <li>Click "New" and add the Tesseract installation directory (e.g., C:\Program Files\Tesseract-OCR)</li>
-                                    <li>Click "OK" on all dialogs to save</li>
-                                </ul>
-                            </li>
-                            <li>Restart your computer after installation to ensure PATH changes take effect</li>
-                        </ul>
-                    </li>
-                    {% endif %}
-                    {% if "PDF" in error %}
-                    <li><strong>PDF Issues:</strong>
-                        <ul class="sub-list">
-                            <li>Make sure the PDF contains actual text, not just scanned images</li>
-                            <li>Try converting the PDF to text using an online converter first</li>
-                        </ul>
-                    </li>
-                    {% endif %}
-                    {% if "Word document" in error %}
-                    <li><strong>Word Document Issues:</strong>
-                        <ul class="sub-list">
-                            <li>Make sure the document contains actual text content</li>
-                            <li>Try saving the document in a different format (e.g., .docx instead of .doc)</li>
-                        </ul>
-                    </li>
-                    {% endif %}
+                </ul>
                 </ul>
             </div>
         </div>
