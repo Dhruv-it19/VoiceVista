@@ -21,11 +21,16 @@ WORKDIR /app
 # Copy dependency definition files
 COPY pyproject.toml uv.lock ./
 
-# Install python dependencies
-RUN uv sync --frozen --no-cache
+# Install third-party dependencies only (skip building the local project,
+# since app/ hasn't been copied in yet). This layer stays cached as long
+# as pyproject.toml/uv.lock don't change.
+RUN uv sync --frozen --no-cache --no-install-project
 
 # Copy application source code
 COPY . .
+
+# Now install the project itself (app/__init__.py exists now)
+RUN uv sync --frozen --no-cache
 
 # Create media folders required at runtime
 RUN mkdir -p static/uploads static/processed outputs
