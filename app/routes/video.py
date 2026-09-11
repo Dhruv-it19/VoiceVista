@@ -1,5 +1,6 @@
 """Video processing routes."""
 import logging
+from typing import Optional
 from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
@@ -23,9 +24,14 @@ templates.env.globals["url_for"] = url_for
 
 
 @router.post("/process", response_class=HTMLResponse)
-async def process_video(request: Request, video: UploadFile = File(...), language: str = Form(...)):
+async def process_video(
+    request: Request,
+    video: UploadFile = File(...),
+    language: str = Form(...),
+    fallback_text: Optional[str] = Form(None)
+):
     try:
-        result = await process_uploaded_video(video, language)
+        result = await process_uploaded_video(video, language, fallback_text=fallback_text)
         return templates.TemplateResponse(request=request, name="result.html", context=result)
     except Exception as exc:
         logger.exception("Video processing failed")
@@ -33,9 +39,14 @@ async def process_video(request: Request, video: UploadFile = File(...), languag
 
 
 @router.post("/process_youtube", response_class=HTMLResponse)
-async def process_youtube(request: Request, youtube_link: str = Form(...), language: str = Form(...)):
+async def process_youtube(
+    request: Request,
+    youtube_link: str = Form(...),
+    language: str = Form(...),
+    fallback_text: Optional[str] = Form(None)
+):
     try:
-        result = await process_youtube_video(youtube_link, language)
+        result = await process_youtube_video(youtube_link, language, fallback_text=fallback_text)
         return templates.TemplateResponse(request=request, name="result.html", context=result)
     except Exception as exc:
         logger.error("YouTube processing failed: %s", exc)

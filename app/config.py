@@ -2,6 +2,9 @@
 from pathlib import Path
 from typing import Optional
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Settings:
@@ -12,7 +15,11 @@ class Settings:
     output_folder: Path = Path("outputs")
     final_output: Path = Path("static/processed")
 
-    # Model settings
+    # API Keys & Services
+    groq_api_key: Optional[str] = os.getenv("GROQ_API_KEY")
+    groq_model: str = os.getenv("GROQ_MODEL", "whisper-large-v3")
+
+    # Model settings (optional local fallback)
     whisper_model: str = "base"
     device: str = "cuda"  # or "cpu"
 

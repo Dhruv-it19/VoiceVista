@@ -5,16 +5,14 @@ import os
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import yt_dlp
-from deep_translator import GoogleTranslator
 from fastapi import UploadFile
-
 from app.config import settings
 from app.services.ffmpeg_service import adjust_audio_speed, ensure_ffmpeg_available, get_audio_duration, get_ffmpeg_cmd, get_video_duration
-from app.services.translation_service import summarize_text, synthesize_speech_safely, translate_text_in_chunks
-from app.services.whisper_service import get_summarizer, transcribe_audio
+from app.services.translation_service import synthesize_speech_safely, translate_text_in_chunks
+from app.services.whisper_service import transcribe_audio
 from app.utils.file_utils import unique_filename
 from app.utils.subprocess_helper import run_command_async
 
@@ -33,24 +31,20 @@ async def download_youtube_video(url: str, save_path: str) -> str:
         raise Exception(f"Failed to download YouTube video: {exc}") from exc
 
 
-async def process_video(video_path: str, target_language: str) -> Dict:
+async def process_video(video_path: str, target_language: str, fallback_text: Optional[str] = None) -> Dict:
     """Original whole-transcript translation and merge workflow."""
     ensure_ffmpeg_available()
     output_id = uuid.uuid4().hex
-    audio_path = os.path.join(settings.output_folder, f"extracted_audio_{output_id}.wav")
+    audio_path = os.path.join(settings.output_folder, f"extracted_audio_{output_id}.mp3")
     translated_audio = os.path.join(settings.output_folder, f"translated_audio_{output_id}.mp3")
     output_video = os.path.join(settings.final_output, f"final_video_{output_id}.mp4")
     temporary_files = [audio_path, translated_audio]
     try:
         ffmpeg = get_ffmpeg_cmd()
-        await run_command_async([ffmpeg, "-i", video_path, "-q:a", "0", "-map", "a", "-y", audio_path], check=True)
-        result = await transcribe_audio(audio_path)
+        await run_command_async([ffmpeg, "-i", video_path, "-vn", "-ar", "16000", "-ac", "1", "-ab", "64k", "-f", "mp3", "-y", audio_path], check=True)
+        result = await transcribe_audio(audio_path, fallback_text=fallback_text)
         transcription = result["text"]
-        summary = await summarize_text(transcription, get_summarizer())
         translated_text = await translate_text_in_chunks(transcription, target_language)
-        translated_summary = None
-        if summary:
-            translated_summary = await asyncio.to_thread(GoogleTranslator(source="auto", target=target_language).translate, summary)
         if not await synthesize_speech_safely(translated_text, translated_audio, target_language, str(settings.output_folder), ffmpeg):
             raise Exception("Failed to generate speech from translated text")
         video_duration = await get_video_duration(video_path)
@@ -61,8 +55,8 @@ async def process_video(video_path: str, target_language: str) -> Dict:
             temporary_files.append(adjusted)
             if await adjust_audio_speed(translated_audio, video_duration, adjusted):
                 audio_to_use = adjusted
-        await run_command_async([ffmpeg, "-i", video_path, "-i", audio_to_use, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-shortest", "-y", output_video], check=True)
-        return {"original_video_url": f"/static/uploads/{os.path.basename(video_path)}", "translated_video_url": f"/static/processed/{os.path.basename(output_video)}", "original_text": transcription, "translated_text": translated_text, "summary": summary, "translated_summary": translated_summary}
+        await run_command_async([ffmpeg, "-i", video_path, "-i", audio_to_use, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "128k", "-shortest", "-y", output_video], check=True)
+        return {"original_video_url": f"/static/uploads/{os.path.basename(video_path)}", "translated_video_url": f"/static/processed/{os.path.basename(output_video)}", "original_text": transcription, "translated_text": translated_text, "transcription_provider": result.get("provider", "groq")}
     finally:
         for path in temporary_files:
             if os.path.exists(path):
@@ -72,7 +66,7 @@ async def process_video(video_path: str, target_language: str) -> Dict:
                     pass
 
 
-async def process_uploaded_video(video: UploadFile, language: str) -> Dict:
+async def process_uploaded_video(video: UploadFile, language: str, fallback_text: Optional[str] = None) -> Dict:
     video_path = os.path.join(settings.upload_folder, unique_filename(video.filename))
     try:
         content = await video.read()
@@ -80,15 +74,16 @@ async def process_uploaded_video(video: UploadFile, language: str) -> Dict:
             raise Exception("Uploaded file is empty")
         with open(video_path, "wb") as output:
             output.write(content)
-        return await process_video(video_path, language)
+        return await process_video(video_path, language, fallback_text=fallback_text)
     except Exception:
         if os.path.exists(video_path):
             os.remove(video_path)
         raise
 
 
-async def process_youtube_video(youtube_link: str, language: str) -> Dict:
-    return await process_video(await download_youtube_video(youtube_link, str(settings.upload_folder)), language)
+async def process_youtube_video(youtube_link: str, language: str, fallback_text: Optional[str] = None) -> Dict:
+    video_path = await download_youtube_video(youtube_link, str(settings.upload_folder))
+    return await process_video(video_path, language, fallback_text=fallback_text)
 
 
 async def list_processed_videos() -> List[Dict]:

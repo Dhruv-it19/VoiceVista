@@ -3,89 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Translation Complete</title>
+    <title>Translation Complete - VoiceVista</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='result.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .text-container {
-            margin-top: 30px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .text-box {
-            margin-bottom: 20px;
-        }
-        
-        .text-box h3 {
-            color: #333;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .text-content {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            max-height: 200px;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
-        
-        .summary-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .summary-box {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .tab-container {
-            margin-bottom: 15px;
-        }
-        
-        .tab-buttons {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-        
-        .tab-button {
-            padding: 8px 15px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 5px 5px 0 0;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .tab-button.active {
-            background-color: #007bff;
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-    </style>
 </head>
 <body>
+    <div class="app-topbar">
+        <a href="/" class="brand">
+            <img src="/static/img/voice vista.png" alt="Voice Vista Logo">
+        </a>
+        <a href="/main" class="nav-link"><i class="fas fa-video"></i> New Translation</a>
+    </div>
+
     <div class="result-container">
         <h1 class="success-animation">Translation Complete! <i class="fas fa-check-circle"></i></h1>
 
@@ -109,24 +41,6 @@
             </div>
         </div>
 
-        {% if summary %}
-        <div class="text-container">
-            <h2><i class="fas fa-chart-pie"></i> AI Generated Summary</h2>
-            <div class="summary-container">
-                <div class="summary-box">
-                    <h3><i class="fas fa-file-alt"></i> Original Summary</h3>
-                    <div class="text-content">{{ summary }}</div>
-                </div>
-                {% if translated_summary %}
-                <div class="summary-box">
-                    <h3><i class="fas fa-language"></i> Translated Summary</h3>
-                    <div class="text-content">{{ translated_summary }}</div>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
-        
         {% if original_text %}
         <div class="text-container">
             <h2><i class="fas fa-file-alt"></i> Full Transcription</h2>
@@ -177,13 +91,13 @@
         function share(platform) {
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent('Check out this translated video!');
-            
+
             const shareUrls = {
                 facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
                 twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
                 linkedin: `https://www.linkedin.com/shareArticle?url=${url}&title=${text}`
             };
-            
+
             window.open(shareUrls[platform], '_blank');
         }
 
@@ -199,27 +113,21 @@
                 })
                 .catch(err => console.error('Failed to copy link:', err));
         }
-        
+
         function openTab(evt, tabId) {
-            // Hide all tab content
             const tabContents = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabContents.length; i++) {
                 tabContents[i].classList.remove("active");
             }
-            
-            // Remove "active" class from all tab buttons
+
             const tabButtons = document.getElementsByClassName("tab-button");
             for (let i = 0; i < tabButtons.length; i++) {
                 tabButtons[i].classList.remove("active");
             }
-            
-            // Show the selected tab content and add "active" class to the button
+
             document.getElementById(tabId).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
-
-        // Add success animation to the container
-        document.querySelector('.result-container').classList.add('success-animation');
     </script>
 </body>
 </html>

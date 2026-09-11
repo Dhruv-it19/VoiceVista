@@ -36,6 +36,16 @@ ENV/
 Thumbs.db
 .python-version
 
+# Agent & tooling (not project-specific)
+.agents/
+.claude/
+.agent/
+agent/
+skills-lock.json
+
+# Environment variables
+.env
+
 # Logs & Cache
 *.log
 .pytest_cache/

@@ -39,19 +39,14 @@ async def translate_text_in_chunks(text: str, target_language: str, chunk_size: 
     return " ".join(chunk for chunk in translated_chunks if chunk)
 
 
-async def summarize_text(text: str, summarizer) -> Optional[str]:
-    if not summarizer:
-        return None
+async def _run_tts_for_chunk(chunk: str, path: str, language: str):
+    """Run Edge TTS for a single chunk."""
     try:
-        maximum = summarizer.model.config.max_position_embeddings
-        text = text[:maximum]
-        words = len(text.split())
-        target = max(30, min(int(words * 0.60), 500))
-        result = await asyncio.to_thread(summarizer, text, max_length=target, min_length=max(15, int(target * 0.5)), do_sample=False)
-        return result[0]["summary_text"] if result else None
-    except Exception as exc:
-        logger.error("Summary generation failed: %s", exc)
-        return None
+        await edge_tts.Communicate(text=chunk, voice=get_male_voice(language)).save(path)
+    except Exception as tts_err:
+        logger.warning(f"Edge TTS failed for voice {get_male_voice(language)}, retrying with default voice {DEFAULT_MALE_VOICE}: {tts_err}")
+        await edge_tts.Communicate(text=chunk, voice=DEFAULT_MALE_VOICE).save(path)
+    return path
 
 
 async def synthesize_speech_safely(text: str, output_path: str, language: str, output_folder: str, ffmpeg_cmd: str) -> bool:
@@ -61,24 +56,32 @@ async def synthesize_speech_safely(text: str, output_path: str, language: str, o
     chunks = [text[index:index + 4000] for index in range(0, len(text), 4000)]
     files = []
     try:
+        # Run TTS chunk requests CONCURRENTLY to massively speed up TTS step
+        tasks = []
         for index, chunk in enumerate(chunks):
             path = output_path if len(chunks) == 1 else os.path.join(output_folder, f"tts_chunk_{index}_{uuid.uuid4().hex}.mp3")
-            await edge_tts.Communicate(text=chunk, voice=get_male_voice(language)).save(path)
             files.append(path)
+            tasks.append(_run_tts_for_chunk(chunk, path, language))
+            
+        await asyncio.gather(*tasks)
+
         if len(files) == 1:
             return True
         concat_file = os.path.join(output_folder, f"concat_{uuid.uuid4().hex}.txt")
         with open(concat_file, "w", encoding="utf-8") as handle:
             for path in files:
-                handle.write(f"file '{os.path.abspath(path)}'\n")
+                escaped_path = os.path.abspath(path).replace("\\", "/")
+                handle.write(f"file '{escaped_path}'\n")
         process = await asyncio.create_subprocess_exec(ffmpeg_cmd, "-f", "concat", "-safe", "0", "-i", concat_file, "-c", "copy", "-y", output_path)
-        await process.communicate()
+        stdout, stderr = await process.communicate()
+        if process.returncode != 0:
+            raise Exception(f"FFmpeg concat failed with exit code {process.returncode}")
         os.remove(concat_file)
         for path in files:
             os.remove(path)
         return True
     except Exception as exc:
-        logger.error("Speech synthesis failed: %s", exc)
+        logger.exception("Speech synthesis failed: %s", exc)
         for path in files:
             if path != output_path and os.path.exists(path):
                 os.remove(path)
