@@ -96,6 +96,54 @@ python main.py
 
 The server will start at `http://localhost:5000` (with hot-reload enabled).
 
+### Separate React Frontend
+
+The translation workspace is also available as a standalone React/Vite client in `frontend/`.
+Run the backend and frontend in separate terminals:
+
+```bash
+# Terminal 1: API and media processing
+python main.py
+
+# Terminal 2: React client
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. Vite proxies `/api` and `/static` to the FastAPI server during development.
+For a deployed frontend, set `VITE_API_URL` to the public FastAPI URL. Configure the backend `FRONTEND_ORIGINS`
+environment variable with the deployed frontend origin.
+
+The API surface used by the React client is:
+
+- `GET /api/languages`
+- `POST /api/translate/upload` with multipart fields `video` and `language`
+- `POST /api/translate/youtube` with form fields `youtube_link` and `language`
+
+The current endpoints return after processing completes. For production-scale workloads, the next backend step is
+to enqueue these requests and return a job ID so the React client can poll job status without holding an HTTP request
+open during FFmpeg, transcription, translation, and speech synthesis.
+
+### Free Demo Deployment
+
+For a demo, deploy the two parts separately:
+
+1. Push the repository to GitHub.
+2. Create a Render Web Service from the repository. The included `render.yaml` and `Dockerfile` install Linux FFmpeg and start the FastAPI API.
+3. Add `GROQ_API_KEY` in Render's environment settings.
+4. Deploy `frontend/` to Cloudflare Pages with:
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Root directory: `frontend`
+5. Set the Cloudflare Pages variable `VITE_API_URL` to the Render API URL, for example `https://voicevista-api.onrender.com`.
+6. Set Render's `FRONTEND_ORIGINS` to the exact Cloudflare Pages URL, for example `https://voicevista.pages.dev`.
+
+Object storage is not required for this demo. Render's temporary filesystem stores uploads and generated videos while the
+service is running, so this is appropriate only for short demonstrations. Render's free service can sleep and its local
+files can disappear after a restart or redeploy. Add Cloudflare R2 or Supabase Storage before treating the app as a
+reliable public service or sharing persistent result links.
+
 ---
 
 ## How to Use the Application

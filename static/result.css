@@ -3,22 +3,22 @@
    ========================================================================== */
 
 :root {
-    --color-primary: #4F46E5;
-    --color-primary-dark: #4338CA;
-    --color-primary-light: #818CF8;
+    --color-primary: #315b78;
+    --color-primary-dark: #24465d;
+    --color-primary-light: #6f8fa5;
     --color-accent: #F59E0B;
     --color-teal: #10B981;
 
-    --color-bg: #FAFAFC;
-    --color-bg-alt: #F3F1FB;
-    --color-surface: #FFFFFF;
-    --color-text: #14142B;
-    --color-text-muted: #5B5B76;
-    --color-border: rgba(20, 20, 43, 0.08);
+    --color-bg: #f4f6f7;
+    --color-bg-alt: #edf1f3;
+    --color-surface: #ffffff;
+    --color-text: #1c2a33;
+    --color-text-muted: #61717b;
+    --color-border: rgba(28, 42, 51, 0.12);
 
-    --shadow-sm: 0 2px 8px rgba(79, 70, 229, 0.06);
-    --shadow-md: 0 12px 24px rgba(79, 70, 229, 0.10);
-    --shadow-lg: 0 24px 48px rgba(79, 70, 229, 0.16);
+    --shadow-sm: 0 2px 8px rgba(28, 42, 51, 0.05);
+    --shadow-md: 0 12px 24px rgba(28, 42, 51, 0.08);
+    --shadow-lg: 0 24px 48px rgba(28, 42, 51, 0.11);
 
     --radius-md: 16px;
     --radius-lg: 24px;
@@ -36,9 +36,7 @@
 
 body {
     font-family: var(--font-body);
-    background: radial-gradient(circle at 10% 0%, rgba(79, 70, 229, 0.06), transparent 45%),
-                radial-gradient(circle at 100% 10%, rgba(16, 185, 129, 0.06), transparent 40%),
-                var(--color-bg);
+    background: linear-gradient(135deg, #f4f6f7 0%, #eef2f3 55%, #e7edef 100%);
     color: var(--color-text);
     line-height: 1.6;
 }
@@ -194,7 +192,7 @@ h3 { color: var(--color-text); margin-bottom: 1rem; font-size: 1.2rem; }
 }
 
 .tab-button.active {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    background: var(--color-primary);
     color: white;
     border-color: transparent;
     box-shadow: var(--shadow-sm);
@@ -230,7 +228,7 @@ h3 { color: var(--color-text); margin-bottom: 1rem; font-size: 1.2rem; }
 }
 
 .action-button.download {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    background: var(--color-primary);
     color: white;
     box-shadow: var(--shadow-md);
 }
@@ -276,6 +274,14 @@ h3 { color: var(--color-text); margin-bottom: 1rem; font-size: 1.2rem; }
 .share-button.twitter { background: var(--twitter-color); }
 .share-button.linkedin { background: var(--linkedin-color); }
 .share-button.copy { background: var(--color-text); }
+
+.action-button:focus-visible,
+.tab-button:focus-visible,
+.share-button:focus-visible,
+.nav-link:focus-visible {
+    outline: 3px solid rgba(49, 91, 120, 0.25);
+    outline-offset: 2px;
+}
 
 /* --------------------------- Responsive --------------------------- */
 

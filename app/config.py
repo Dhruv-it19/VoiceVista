@@ -26,6 +26,13 @@ class Settings:
     # File size limits (500MB)
     max_file_size: int = 500 * 1024 * 1024
 
+    # Comma-separated origins for the separate frontend application.
+    frontend_origins: list[str] = [
+        origin.strip()
+        for origin in os.getenv("FRONTEND_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+        if origin.strip()
+    ]
+
     def __init__(self):
         """Initialize settings and create directories."""
         self.upload_folder.mkdir(parents=True, exist_ok=True)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Translation - VoiceVista</title>
+    <title>Translate a Video - VoiceVista</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,9 +22,9 @@
 
     <div class="container">
         <div class="page-header">
-            <span class="tag">Translate</span>
-            <h1>Video Translation</h1>
-            <p>Upload a video or paste a YouTube link to translate speech into another language.</p>
+            <span class="tag">Voice translation</span>
+            <h1>Turn spoken video into another language</h1>
+            <p>Upload a video or paste a YouTube link. VoiceVista transcribes the speech, translates it, and returns a dubbed video.</p>
         </div>
 
         <!-- Upload Selector -->
@@ -40,16 +40,16 @@
         <!-- Video Upload Form -->
         <div id="uploadFormContainer">
             <form id="uploadForm" action="/process" method="post" enctype="multipart/form-data" onsubmit="showProgress()">
-                <div class="drop-zone" id="dropZone">
+                <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-controls="video">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <strong>Drop video file here or click to upload</strong>
-                    <p>Supported formats: MP4, AVI, MOV, etc.</p>
+                    <strong>Drop a video here or browse your files</strong>
+                    <p>MP4, AVI, MOV, or WEBM up to the configured upload limit.</p>
                 </div>
                 <input type="file" id="video" name="video" accept="video/*" required hidden>
 
                 <div class="language-select-container">
-                    <label for="language">Select Target Language:</label>
-                    <select id="language" name="language" required>
+                    <label for="upload-language">Translate voice to</label>
+                    <select id="upload-language" name="language" required>
                         {% for code, name in languages.items() %}
                             <option value="{{ code }}">{{ name }}</option>
                         {% endfor %}
@@ -57,7 +57,7 @@
                 </div>
 
                 <button type="submit" class="action-button">
-                    <i class="fas fa-language"></i> Translate Video
+                    <i class="fas fa-language"></i> Translate video
                 </button>
             </form>
         </div>
@@ -66,12 +66,12 @@
         <div id="youtubeFormContainer" style="display: none;">
             <form id="youtubeForm" action="/process_youtube" method="post" onsubmit="showProgress()">
                 <div class="language-select-container">
-                    <label for="youtube_link">YouTube Video Link:</label>
+                    <label for="youtube_link">YouTube video link</label>
                     <input type="url" id="youtube_link" name="youtube_link" placeholder="Enter YouTube video link" required>
                 </div>
 
                 <div class="youtube-tips">
-                    <p><strong>Tips for YouTube videos:</strong></p>
+                    <p><strong>Before you start</strong></p>
                     <ul>
                         <li>Prefer shorter videos (under 25 minutes) for faster processing</li>
                         <li>Some videos may be restricted and not downloadable</li>
@@ -81,8 +81,8 @@
                 </div>
 
                 <div class="language-select-container">
-                    <label for="language">Select Target Language:</label>
-                    <select id="language" name="language" required>
+                    <label for="youtube-language">Translate voice to</label>
+                    <select id="youtube-language" name="language" required>
                         {% for code, name in languages.items() %}
                             <option value="{{ code }}">{{ name }}</option>
                         {% endfor %}
@@ -90,7 +90,7 @@
                 </div>
 
                 <button type="submit" class="action-button">
-                    <i class="fas fa-language"></i> Translate YouTube Video
+                    <i class="fas fa-language"></i> Translate video
                 </button>
             </form>
         </div>
@@ -98,8 +98,9 @@
         <!-- Progress Modal -->
         <div class="modal" id="progressModal" style="display: none;">
             <div class="modal-content">
-                <h2>Processing Video</h2>
-                <p>This may take several minutes depending on the video length and complexity.</p>
+                <p class="modal-kicker">VoiceVista is working</p>
+                <h2>Preparing your translation</h2>
+                <p>This can take a few minutes while we transcribe, translate, synthesize, and sync the new voice track.</p>
                 <div class="spinner"></div>
             </div>
         </div>
@@ -128,8 +129,16 @@
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('video');
 
-        dropZone.addEventListener('click', () => {
+        const openFilePicker = () => {
             fileInput.click();
+        };
+
+        dropZone.addEventListener('click', openFilePicker);
+        dropZone.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openFilePicker();
+            }
         });
 
         fileInput.addEventListener('change', (e) => {
@@ -138,6 +147,7 @@
                 dropZone.innerHTML = `
                     <i class="fas fa-file-video"></i>
                     <strong>Selected file:</strong> ${fileName}
+                    <p>Click to choose a different video</p>
                 `;
             }
         });
@@ -164,6 +174,7 @@
                     dropZone.innerHTML = `
                         <i class="fas fa-file-video"></i>
                         <strong>Selected file:</strong> ${file.name}
+                        <p>Click to choose a different video</p>
                     `;
                 } else {
                     alert('Please upload a video file');

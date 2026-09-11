@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: voicevista-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: whisper-large-v3
+      - key: FRONTEND_ORIGINS
+        sync: false

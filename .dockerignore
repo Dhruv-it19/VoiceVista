@@ -1,0 +1,12 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.pyc
+outputs
+static/uploads
+static/processed
+frontend/node_modules
+frontend/dist
+.env
+ffmpeg

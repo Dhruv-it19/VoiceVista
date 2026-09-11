@@ -3,16 +3,16 @@
    ========================================================================== */
 
 :root {
-    --color-primary: #4F46E5;
-    --color-primary-dark: #4338CA;
+    --color-primary: #315b78;
+    --color-primary-dark: #24465d;
     --color-error: #EF4444;
-    --color-bg: #FAFAFC;
-    --color-surface: #FFFFFF;
-    --color-text: #14142B;
-    --color-text-muted: #5B5B76;
-    --color-border: rgba(20, 20, 43, 0.08);
-    --shadow-sm: 0 2px 8px rgba(79, 70, 229, 0.06);
-    --shadow-lg: 0 24px 48px rgba(79, 70, 229, 0.14);
+    --color-bg: #f4f6f7;
+    --color-surface: #ffffff;
+    --color-text: #1c2a33;
+    --color-text-muted: #61717b;
+    --color-border: rgba(28, 42, 51, 0.12);
+    --shadow-sm: 0 2px 8px rgba(28, 42, 51, 0.05);
+    --shadow-lg: 0 24px 48px rgba(28, 42, 51, 0.11);
     --radius-lg: 24px;
     --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -23,7 +23,7 @@
 
 body {
     font-family: var(--font-body);
-    background: radial-gradient(circle at 20% 0%, rgba(239, 68, 68, 0.06), transparent 45%), var(--color-bg);
+    background: linear-gradient(135deg, #f4f6f7 0%, #eef2f3 55%, #e7edef 100%);
     color: var(--color-text);
     line-height: 1.6;
     padding: 40px 0;
@@ -111,7 +111,7 @@ h2 { font-family: var(--font-display); }
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    background: var(--color-primary);
     color: white;
     text-decoration: none;
     padding: 0.85rem 1.9rem;
